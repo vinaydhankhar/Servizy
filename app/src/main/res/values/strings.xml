@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HostelServiceManagement</string>
+    <string name="button">LOG IN</string>
+    <string name="button2">REGISTER</string>
 </resources>

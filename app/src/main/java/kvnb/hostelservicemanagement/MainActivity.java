@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    public Button b1;
+    public Button b2;
     public void init(){
-        b1=(Button)findViewById(R.id.button);
-        b1.setOnClickListener(new View.OnClickListener() {
+        b2=(Button)findViewById(R.id.button2);
+        b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent=new Intent(MainActivity.this,Login.class);
+                Intent myIntent=new Intent(MainActivity.this,Register.class);
                 startActivity(myIntent);
             }
         });
