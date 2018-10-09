@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="kvnb.hostelservicemanagement">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,13 +20,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Register"></activity>
-
+        <activity
+            android:name=".Register"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="kvnb.hostelservicemanagement.MainActivity" />
+        </activity>
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="kvnb.hostelservicemanagement.Main3Activity" />
+        </activity>
+        <activity
+            android:name=".Main3Activity"
+            android:label="@string/title_activity_main3"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="kvnb.hostelservicemanagement.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Main4Activity"
+            android:label="@string/title_activity_main4"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="kvnb.hostelservicemanagement.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public  void sendMessage(View view){
-        Intent intent =new Intent(this,Main2Activity.class);
+        Intent intent =new Intent(this,Main3Activity.class);
         startActivity(intent);
     }
     public void register(View v){
