@@ -17,6 +17,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -79,15 +80,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Main3Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private String str="Message Checking";
+    private String ausername;
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView messageTextView;
 
         TextView messengerTextView;
-
+        CircleImageView messengerImageView;
 
         public MessageViewHolder(View v) {
             super(v);
             messageTextView = (TextView) itemView.findViewById(R.id.cardtext1);
+            messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageView1);
 
             messengerTextView = (TextView) itemView.findViewById(R.id.cardtext2);
 
@@ -95,10 +99,12 @@ public class Main3Activity extends AppCompatActivity
     }
     public void sendMessage(){
         Intent in = new Intent(this,Main4Activity.class);
+        in.putExtra(str,ausername);
         startActivity(in);
     }
     public void sendNotices(){
         Intent in = new Intent(this,Main2Activity.class);
+        in.putExtra(str,ausername);
         startActivity(in);
     }    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -135,13 +141,15 @@ public class Main3Activity extends AppCompatActivity
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseRecyclerAdapter<FriendlyMessage1, Main3Activity.MessageViewHolder>
             mFirebaseAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Intent in =getIntent();
+        ausername=in.getStringExtra(str);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,11 +207,13 @@ public class Main3Activity extends AppCompatActivity
             protected void onBindViewHolder(final Main3Activity.MessageViewHolder viewHolder,
                                             int position,
                                             FriendlyMessage1 friendlyMessage) {
+
                 Random r= new Random();
                 if (friendlyMessage.getText() != null) {
                     viewHolder.messageTextView.setText(friendlyMessage.getText());
                     viewHolder.messageTextView.setBackgroundColor(Color.parseColor(generateColor(r)));
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
+                    viewHolder.messengerImageView.setVisibility(CircleImageView.VISIBLE);
                 }
 
                 viewHolder.messengerTextView.setText(friendlyMessage.getName());
@@ -211,8 +221,12 @@ public class Main3Activity extends AppCompatActivity
                 viewHolder.messageTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        viewHolder.messengerTextView.setVisibility(TextView.VISIBLE);
-                    }
+
+
+                            viewHolder.messengerTextView.setBackgroundColor(Color.parseColor(generateColor(new Random())));
+                            viewHolder.messengerTextView.setVisibility(TextView.VISIBLE);
+
+                        }
                 });
 
 
@@ -291,7 +305,8 @@ public class Main3Activity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
-
+            Intent in =new Intent(this,MainActivity.class);
+            startActivity(in);
         } else if (id == R.id.nav_manage) {
 
         }
@@ -301,14 +316,15 @@ public class Main3Activity extends AppCompatActivity
         return true;
     }
     private static String generateColor(Random r) {
-        StringBuilder color = new StringBuilder(Integer.toHexString(r
-                .nextInt(16777215)));
-        while (color.length() < 6) {
-            color.append("0");
-        }
+        StringBuilder color[] = new StringBuilder[5];
+        color[0]=new StringBuilder("#0076f0");
+        color[1]=new StringBuilder("#E90088");
+        color[2]=new StringBuilder("#F4FE00");
+        color[3]=new StringBuilder("#ff1493");
+        color[4]=new StringBuilder("FF8300");
 
-        return color.append("#").reverse().toString();
-
+        int i=(int)r.nextInt(4);
+        return color[i].toString();
     }
 
 

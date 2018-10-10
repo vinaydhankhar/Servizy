@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">HostelServiceManagement</string>
+    <string name="app_name">Servizy</string>
     <string name="button">LOG IN</string>
     <string name="button2">REGISTER</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main2">Servizy</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Servizy</string>
+    <string name="nav_header_subtitle">Now Service is Easy</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="tab_text_1">Notices</string>
@@ -44,6 +44,6 @@
     <string name="title_home">Notices</string>
     <string name="title_dashboard">Discussion</string>
     <string name="title_notifications">Profile</string>
-    <string name="title_activity_main3">Main3Activity</string>
-    <string name="title_activity_main4">Main4Activity</string>
+    <string name="title_activity_main3">Servizy</string>
+    <string name="title_activity_main4">Servizy</string>
 </resources>

@@ -75,12 +75,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Main4Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,GoogleApiClient.OnConnectionFailedListener {
+    private String str="Message Checking";
+    private String ausername;
     public void sendMessage(){
         Intent in = new Intent(this,Main3Activity.class);
+        in.putExtra(str,ausername);
         startActivity(in);
     }
     public void sendNotices(){
         Intent in = new Intent(this,Main2Activity.class);
+        in.putExtra(str,ausername);
         startActivity(in);
     }
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -158,14 +162,15 @@ public class Main4Activity extends AppCompatActivity
 
         navigation.setSelectedItemId(R.id.navigation_dashboard);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        Intent in =getIntent();
+        ausername=in.getStringExtra(str);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        mUsername=ANONYMOUS;
+        mUsername=ausername;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -385,11 +390,15 @@ public class Main4Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            Intent in = new Intent(this,Main3Activity.class);
+            in.putExtra(str,ausername);
+            startActivity(in);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
-
+            Intent in =new Intent(this,MainActivity.class);
+            startActivity(in);
         } else if (id == R.id.nav_manage) {
 
         }

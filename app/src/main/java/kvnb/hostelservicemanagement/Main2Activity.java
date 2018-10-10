@@ -24,16 +24,31 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private String str="Message Checking";
+    private String ausername;
+    TextView name;
+    TextView username;
 
 
+
+    TextView rollno;
+    TextView roomno;
+    TextView hno;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private TextView mTextMessage;
     public void sendMessage(){
         Intent in = new Intent(this,Main4Activity.class);
+        in.putExtra(str,ausername);
         startActivity(in);
     }
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -57,7 +72,9 @@ public class Main2Activity extends AppCompatActivity
     };
 
     public void sendNotices(){
+
         Intent in = new Intent(this,Main3Activity.class);
+        in.putExtra(str,ausername);
         startActivity(in);
     }
     @Override
@@ -66,7 +83,15 @@ public class Main2Activity extends AppCompatActivity
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Intent in =getIntent();
+        ausername=in.getStringExtra(str);
+        username = (TextView) findViewById(R.id.usernameprofile);
 
+
+        name = (TextView) findViewById(R.id.nameprofile);
+        rollno = (TextView) findViewById(R.id.rollnoprofile);
+        roomno = (TextView) findViewById(R.id.roomnoprofile);
+        hno = (TextView) findViewById(R.id.hostelnoprofile);
 
 
         //getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,7 +110,7 @@ public class Main2Activity extends AppCompatActivity
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-
+        navigation.setSelectedItemId(R.id.navigation_notifications);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +119,33 @@ public class Main2Activity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+        if(!ausername.equals("")) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("registeruser").child(ausername);
+
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        RegisterUser user = dataSnapshot.getValue(RegisterUser.class);
+                        username.setText(ausername);
+                        name.setText(user.getName());
+                        rollno.setText(user.getRollno());
+                        roomno.setText(user.getRoomno());
+                        hno.setText(user.getHno());
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+
+                }
+            });
+        }
+
 
     }
 
@@ -136,11 +188,15 @@ public class Main2Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            Intent in = new Intent(this,Main3Activity.class);
+            in.putExtra(str,ausername);
+            startActivity(in);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
-
+            Intent in =new Intent(this,MainActivity.class);
+            startActivity(in);
         } else if (id == R.id.nav_manage) {
 
         }

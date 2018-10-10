@@ -1,15 +1,31 @@
 package kvnb.hostelservicemanagement;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class MainActivity extends AppCompatActivity {
     Button a;
     TextView textView;
+    private String ausername;
+    private String str="Message Checking";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,9 +34,49 @@ public class MainActivity extends AppCompatActivity {
         textView=(TextView)findViewById(R.id.register);
         a.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                sendMessage(view);
+            public void onClick(final View view) {
+                TextView textView1=(TextView)findViewById(R.id.username1);
+                TextView textView2=(TextView)findViewById(R.id.password1);
+                final String u=textView1.getText().toString();
+                final String p=textView2.getText().toString();
+                if(!u.equals("")) {
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(u);
 
+
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                User user = dataSnapshot.getValue(User.class);
+                                if (user.getPassword().equals(p)) {
+                                    ausername = u;
+                                    sendMessage(view);
+                                } else {
+                                    Snackbar.make(view, "Wrong Password", Snackbar.LENGTH_LONG)
+                                            .setAction("Action", null).show();
+                                }
+
+                            } else {
+                                Snackbar.make(view, "Wrong Username If not Registered please register", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+
+                        }
+                    });
+
+                }
+                else{
+                    Snackbar.make(view, "Please Enter a username", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
         textView.setOnClickListener(new View.OnClickListener() {
@@ -32,10 +88,16 @@ public class MainActivity extends AppCompatActivity {
     }
     public  void sendMessage(View view){
         Intent intent =new Intent(this,Main3Activity.class);
+        intent.putExtra(str,ausername);
         startActivity(intent);
     }
     public void register(View v){
         Intent intent =new Intent(this,Register.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
