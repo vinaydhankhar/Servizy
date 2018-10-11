@@ -1,7 +1,9 @@
 package kvnb.hostelservicemanagement;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,63 +34,76 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        a=(Button)findViewById(R.id.button);
-        textView=(TextView)findViewById(R.id.register);
-        a.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                TextView textView1=(TextView)findViewById(R.id.username1);
-                TextView textView2=(TextView)findViewById(R.id.password1);
-                final String u=textView1.getText().toString();
-                final String p=textView2.getText().toString();
-                if(!u.equals("")) {
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(u);
+
+        a = (Button) findViewById(R.id.button);
+        textView = (TextView) findViewById(R.id.register);
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+        String user1 = pref.getString("user", "");
+        if (!user1.equals("")) {
+            ausername = user1;
+            sendMessage();
+        } else {
 
 
-                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            a.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    TextView textView1 = (TextView) findViewById(R.id.username1);
+                    TextView textView2 = (TextView) findViewById(R.id.password1);
+                    final String u = textView1.getText().toString();
+                    final String p = textView2.getText().toString();
+                    if (!u.equals("")) {
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(u);
 
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                User user = dataSnapshot.getValue(User.class);
-                                if (user.getPassword().equals(p)) {
-                                    ausername = u;
-                                    sendMessage(view);
+
+                        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    User user = dataSnapshot.getValue(User.class);
+                                    if (user.getPassword().equals(p)) {
+                                        ausername = u;
+                                        editor.putString("user",u);
+                                        editor.commit();
+                                        sendMessage();
+                                    } else {
+                                        Snackbar.make(view, "Wrong Password", Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null).show();
+                                    }
+
                                 } else {
-                                    Snackbar.make(view, "Wrong Password", Snackbar.LENGTH_LONG)
+                                    Snackbar.make(view, "Wrong Username If not Registered please register", Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
                                 }
 
-                            } else {
-                                Snackbar.make(view, "Wrong Username If not Registered please register", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+
                             }
 
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
 
-                        }
+                            }
+                        });
 
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-
-                        }
-                    });
-
+                    } else {
+                        Snackbar.make(view, "Please Enter a username", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
                 }
-                else{
-                    Snackbar.make(view, "Please Enter a username", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            }
-        });
+            });
+        }
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 register(v);
             }
         });
+
     }
-    public  void sendMessage(View view){
+    public  void sendMessage(){
         Intent intent =new Intent(this,Main3Activity.class);
         intent.putExtra(str,ausername);
         startActivity(intent);
