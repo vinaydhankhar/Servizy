@@ -49,13 +49,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:fontFamily="cursive"
+
                     android:shadowColor="#0076f0"
                     android:shadowRadius="0.1"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#f71b1b1b"
-                    android:textSize="38dp"
-                    android:textStyle="bold" />
+                    android:textSize="33dp"
+                     />
 
                 <TextView
                     android:id="@+id/cardtext2"
