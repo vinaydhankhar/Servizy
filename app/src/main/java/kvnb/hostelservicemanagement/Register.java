@@ -65,7 +65,7 @@ public class Register extends AppCompatActivity {
                     final DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference().child("registeruser");
                     RegisterUser ruser = new RegisterUser(name1, mail1, phno1, rollno1, roomno1, hno1);
 
-                    reference.addValueEventListener(new ValueEventListener() {
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
 
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -78,7 +78,7 @@ public class Register extends AppCompatActivity {
                                 User user = new User(pass);
                                 reference.setValue(user);
                                 reference1.child(u).setValue(ruser);
-                                Snackbar.make(view, "Succesfully Registered", Snackbar.LENGTH_LONG)
+                                Snackbar.make(view, "Succesfully Registered press back", Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
                             }
 

@@ -142,7 +142,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:background="@color/transparent"
-                    android:text="Forgot Password?"
                     android:textAllCaps="false"
                     android:textColor="@color/textColor"
                     android:textSize="13sp" />

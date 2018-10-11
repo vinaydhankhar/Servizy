@@ -1,8 +1,13 @@
 package kvnb.hostelservicemanagement;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -72,6 +77,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -84,7 +90,7 @@ public class Main3Activity extends AppCompatActivity
     private String ausername;
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView messageTextView;
-
+        CardView cardview;
         TextView messengerTextView;
         CircleImageView messengerImageView;
 
@@ -92,7 +98,7 @@ public class Main3Activity extends AppCompatActivity
             super(v);
             messageTextView = (TextView) itemView.findViewById(R.id.cardtext1);
             messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageView1);
-
+            cardview=(CardView)itemView.findViewById(R.id.cardview12);
             messengerTextView = (TextView) itemView.findViewById(R.id.cardtext2);
 
         }
@@ -179,6 +185,7 @@ public class Main3Activity extends AppCompatActivity
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(false);
         mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
+        //mMessageRecyclerView.addItemDecoration(new LineDividerItemDecoration(this, R.drawable.line_divider));
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         SnapshotParser<FriendlyMessage1> parser = new SnapshotParser<FriendlyMessage1>() {
             @Override
@@ -208,10 +215,17 @@ public class Main3Activity extends AppCompatActivity
                                             int position,
                                             FriendlyMessage1 friendlyMessage) {
 
-                Random r= new Random();
+
                 if (friendlyMessage.getText() != null) {
+
+
                     viewHolder.messageTextView.setText(friendlyMessage.getText());
-                    viewHolder.messageTextView.setBackgroundColor(Color.parseColor(generateColor(r)));
+                    viewHolder.cardview.setVisibility(CardView.VISIBLE);
+                    viewHolder.cardview.setCardBackgroundColor(Color.parseColor(generateColor(new SecureRandom())));
+                    //viewHolder.cardview.setRadius(17f);
+                    //viewHolder.cardview.setElevation(10f);
+
+                   // viewHolder.messageTextView.setBackgroundColor(Color.parseColor(generateColor(r)));
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
                     viewHolder.messengerImageView.setVisibility(CircleImageView.VISIBLE);
                 }
@@ -221,12 +235,17 @@ public class Main3Activity extends AppCompatActivity
                 viewHolder.messageTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                            if(viewHolder.messengerTextView.getVisibility()==TextView.GONE){
 
-
-                            viewHolder.messengerTextView.setBackgroundColor(Color.parseColor(generateColor(new Random())));
                             viewHolder.messengerTextView.setVisibility(TextView.VISIBLE);
 
                         }
+                        else{
+                               // viewHolder.messengerTextView.setBackgroundColor(Color.parseColor(generateColor(new Random())));
+                                viewHolder.messengerTextView.setVisibility(TextView.GONE);
+                            }
+                    }
+
                 });
 
 
@@ -315,16 +334,94 @@ public class Main3Activity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    private static String generateColor(Random r) {
+    private static String generateColor(SecureRandom r) {
         StringBuilder color[] = new StringBuilder[5];
-        color[0]=new StringBuilder("#0076f0");
-        color[1]=new StringBuilder("#E90088");
-        color[2]=new StringBuilder("#F4FE00");
-        color[3]=new StringBuilder("#ff1493");
-        color[4]=new StringBuilder("FF8300");
+        color[0]=new StringBuilder("#ffffff");
+        color[1]=new StringBuilder("#ffffff");
+        color[2]=new StringBuilder("#ffffff");
+        color[3]=new StringBuilder("#ffffff");
+        color[4]=new StringBuilder("#ffffff");
 
         int i=(int)r.nextInt(4);
         return color[i].toString();
+    }
+    public class LineDividerItemDecoration extends RecyclerView.ItemDecoration {
+
+        private final int[] ATTRS = new int[]{
+                android.R.attr.listDivider
+        };
+
+        public static final int HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;
+
+        public static final int VERTICAL_LIST = LinearLayoutManager.VERTICAL;
+
+        private Drawable mDivider;
+
+        private int mOrientation;
+
+        public LineDividerItemDecoration(Context context, int orientation) {
+            final TypedArray a = context.obtainStyledAttributes(ATTRS);
+            mDivider = a.getDrawable(0);
+            a.recycle();
+            setOrientation(orientation);
+        }
+
+        public void setOrientation(int orientation) {
+            if (orientation != HORIZONTAL_LIST && orientation != VERTICAL_LIST) {
+                throw new IllegalArgumentException("invalid orientation");
+            }
+            mOrientation = orientation;
+        }
+
+        @Override
+        public void onDraw(Canvas c, RecyclerView parent) {
+            if (mOrientation == VERTICAL_LIST) {
+                drawVertical(c, parent);
+            } else {
+                drawHorizontal(c, parent);
+            }
+        }
+
+        public void drawVertical(Canvas c, RecyclerView parent) {
+            final int left = parent.getPaddingLeft();
+            final int right = parent.getWidth() - parent.getPaddingRight();
+
+            final int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = parent.getChildAt(i);
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                        .getLayoutParams();
+                final int top = child.getBottom() + params.bottomMargin;
+                final int bottom = top + mDivider.getIntrinsicHeight();
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
+        }
+
+        public void drawHorizontal(Canvas c, RecyclerView parent) {
+            final int top = parent.getPaddingTop();
+            final int bottom = parent.getHeight() - parent.getPaddingBottom();
+
+            final int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = parent.getChildAt(i);
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                        .getLayoutParams();
+                final int left = child.getRight() + params.rightMargin;
+                final int right = left + mDivider.getIntrinsicHeight();
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+            if (mOrientation == VERTICAL_LIST) {
+                outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
+            } else {
+                outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
+            }
+        }
     }
 
 
