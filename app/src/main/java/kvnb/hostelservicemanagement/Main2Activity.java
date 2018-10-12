@@ -52,6 +52,11 @@ public class Main2Activity extends AppCompatActivity
         in.putExtra(str,ausername);
         startActivity(in);
     }
+    public void sendComplaint(){
+        Intent in = new Intent(this,complaintreg.class);
+        in.putExtra(str,ausername);
+        startActivity(in);
+    }
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -116,8 +121,7 @@ public class Main2Activity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+             sendComplaint();
             }
         });
         if(!ausername.equals("")) {
@@ -196,6 +200,9 @@ public class Main2Activity extends AppCompatActivity
             startActivity(in);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            Intent in = new Intent(this,UserComplaint.class);
+            in.putExtra(str,ausername);
+            startActivity(in);
 
         } else if (id == R.id.nav_slideshow) {
             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);

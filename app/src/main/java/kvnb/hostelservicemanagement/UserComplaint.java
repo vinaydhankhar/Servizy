@@ -84,7 +84,7 @@ import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Main3Activity extends AppCompatActivity
+public class UserComplaint extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private String str="Message Checking";
     private String ausername;
@@ -93,14 +93,15 @@ public class Main3Activity extends AppCompatActivity
         CardView cardview;
         TextView messengerTextView;
         CircleImageView messengerImageView;
+        TextView resolved;
 
         public MessageViewHolder(View v) {
             super(v);
-            messageTextView = (TextView) itemView.findViewById(R.id.cardtext1);
-            messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageView1);
-            cardview=(CardView)itemView.findViewById(R.id.cardview12);
-            messengerTextView = (TextView) itemView.findViewById(R.id.cardtext2);
-
+            messageTextView = (TextView) itemView.findViewById(R.id.cardtextcomp1);
+            messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageViewcomp);
+            cardview=(CardView)itemView.findViewById(R.id.cardviewcomp);
+            messengerTextView = (TextView) itemView.findViewById(R.id.cardtextcomp2);
+            resolved=(TextView) itemView.findViewById(R.id.cardtextcomp3);
         }
     }
     public void sendMessage(){
@@ -112,27 +113,9 @@ public class Main3Activity extends AppCompatActivity
         Intent in = new Intent(this,Main2Activity.class);
         in.putExtra(str,ausername);
         startActivity(in);
-    }    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-
-                    return true;
-                case R.id.navigation_dashboard:
-                    sendMessage();
-                    return true;
-                case R.id.navigation_notifications:
-                    sendNotices();
-                    return true;
-            }
-            return false;
-        }
-    };
-    private static final String TAG = "Main3Activity";
-    public static final String MESSAGES_CHILD = "notices";
+    }
+    private static final String TAG = "UserComplaint";
+    public static final String MESSAGES_CHILD = "complaint";
     private static final int REQUEST_INVITE = 1;
     private static final int REQUEST_IMAGE = 2;
     private static final String LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif";
@@ -145,7 +128,7 @@ public class Main3Activity extends AppCompatActivity
     private ProgressBar mProgressBar;
     private EditText mMessageEditText;
     private DatabaseReference mFirebaseDatabaseReference;
-    private FirebaseRecyclerAdapter<FriendlyMessage1, Main3Activity.MessageViewHolder>
+    private FirebaseRecyclerAdapter<Complaint, UserComplaint.MessageViewHolder>
             mFirebaseAdapter;
     public void sendComplaint(){
         Intent in = new Intent(this,complaintreg.class);
@@ -155,7 +138,7 @@ public class Main3Activity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main3);
+        setContentView(R.layout.activity_user_complaint);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Intent in =getIntent();
@@ -164,93 +147,97 @@ public class Main3Activity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendComplaint();
+              sendComplaint();
             }
         });
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
-        navigation.setSelectedItemId(R.id.navigation_home);
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //firebase cardview implementation
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Log.v("ErrorMessage","Checking1");
         // Set default username is anonymous.
-        mUsername = ANONYMOUS;
-        mMessageRecyclerView = (RecyclerView) findViewById(R.id.messageRecyclerView1);
+        mUsername = ausername;
+        Log.v("ErrorMessage","Checking2");
+        mMessageRecyclerView = (RecyclerView) findViewById(R.id.messageRecyclerView2);
         mLinearLayoutManager = new LinearLayoutManager(this);
+        Log.v("ErrorMessage","Checking3");
         mLinearLayoutManager.setStackFromEnd(false);
+        Log.v("ErrorMessage","Checking4");
         mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
         //mMessageRecyclerView.addItemDecoration(new LineDividerItemDecoration(this, R.drawable.line_divider));
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        SnapshotParser<FriendlyMessage1> parser = new SnapshotParser<FriendlyMessage1>() {
+        Log.v("ErrorMessage","Checking5");
+
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child(MESSAGES_CHILD).child(ausername);
+        Log.v("ErrorMessage","Checking2");
+        SnapshotParser<Complaint> parser = new SnapshotParser<Complaint>() {
             @Override
-            public FriendlyMessage1 parseSnapshot(DataSnapshot dataSnapshot) {
-                FriendlyMessage1 friendlyMessage = dataSnapshot.getValue(FriendlyMessage1.class);
+            public Complaint parseSnapshot(DataSnapshot dataSnapshot) {
+                Complaint friendlyMessage = dataSnapshot.getValue(Complaint.class);
                 if (friendlyMessage != null) {
                     friendlyMessage.setId(dataSnapshot.getKey());
                 }
                 return friendlyMessage;
             }
         };
-
-        DatabaseReference messagesRef = mFirebaseDatabaseReference.child(MESSAGES_CHILD);
-        FirebaseRecyclerOptions<FriendlyMessage1> options =
-                new FirebaseRecyclerOptions.Builder<FriendlyMessage1>()
+        Log.v("Error","Checking3");
+        DatabaseReference messagesRef = mFirebaseDatabaseReference;
+        FirebaseRecyclerOptions<Complaint> options =
+                new FirebaseRecyclerOptions.Builder<Complaint>()
                         .setQuery(messagesRef, parser)
                         .build();
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<FriendlyMessage1, Main3Activity.MessageViewHolder>(options) {
+        Log.v("Error","Checking4");
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Complaint, UserComplaint.MessageViewHolder>(options) {
             @Override
-            public Main3Activity.MessageViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            public UserComplaint.MessageViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                return new Main3Activity.MessageViewHolder(inflater.inflate(R.layout.item_card, viewGroup, false));
+                return new UserComplaint.MessageViewHolder(inflater.inflate(R.layout.item_complaint, viewGroup, false));
             }
 
             @Override
-            protected void onBindViewHolder(final Main3Activity.MessageViewHolder viewHolder,
+            protected void onBindViewHolder(final UserComplaint.MessageViewHolder viewHolder,
                                             int position,
-                                            FriendlyMessage1 friendlyMessage) {
+                                            Complaint friendlyMessage) {
 
 
-                if (friendlyMessage.getText() != null) {
+                if (friendlyMessage.getComplaintType() != null) {
 
-
-                    viewHolder.messageTextView.setText(friendlyMessage.getText());
+                    Log.v("Error","Checking5");
+                    viewHolder.messageTextView.setText(friendlyMessage.getComplaintType());
                     viewHolder.cardview.setVisibility(CardView.VISIBLE);
                     viewHolder.cardview.setCardBackgroundColor(Color.parseColor(generateColor(new SecureRandom())));
-
+                    viewHolder.resolved.setText(friendlyMessage.getRusolved());
+                    viewHolder.resolved.setVisibility(TextView.VISIBLE);
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
-                    viewHolder.messengerImageView.setVisibility(CircleImageView.VISIBLE);
+
+                    viewHolder.messengerTextView.setVisibility(TextView.VISIBLE);
+                    viewHolder.messengerTextView.setText(friendlyMessage.getComplaintDescription());
+                    if(friendlyMessage.getRusolved().equals("resolved")) {
+                        viewHolder.messengerImageView.setImageResource(R.drawable.ic_done);
+                        viewHolder.messengerImageView.setVisibility(CircleImageView.VISIBLE);
+                    }
+                    else{
+                        viewHolder.messengerImageView.setImageResource(R.drawable.ic_notdone);
+                        viewHolder.messengerImageView.setVisibility(CircleImageView.VISIBLE);
+
+                    }
                 }
 
-                viewHolder.messengerTextView.setText(friendlyMessage.getName());
-                viewHolder.messengerTextView.setVisibility(TextView.GONE);
-                viewHolder.messageTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                            if(viewHolder.messengerTextView.getVisibility()==TextView.GONE){
 
-                            viewHolder.messengerTextView.setVisibility(TextView.VISIBLE);
+                Log.v("Error","Checking6");
 
-                        }
-                        else{
-
-                                viewHolder.messengerTextView.setVisibility(TextView.GONE);
-                            }
-                    }
-
-                });
 
 
             }
         };
+        Log.v("Error","Checking6");
         mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
@@ -322,11 +309,11 @@ public class Main3Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-            Intent in = new Intent(this,UserComplaint.class);
+            Intent in =new Intent(this,Main2Activity.class);
             in.putExtra(str,ausername);
             startActivity(in);
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);

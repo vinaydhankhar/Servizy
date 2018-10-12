@@ -60,6 +60,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="kvnb.hostelservicemanagement.MainActivity" />
         </activity>
+        <activity
+            android:name=".complaintreg"
+            android:label="@string/title_activity_user_complaint"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="kvnb.hostelservicemanagement.MainActivity" />
+        </activity>
+        <activity
+            android:name=".UserComplaint"
+            android:label="@string/title_activity_user_complaint"
+            android:theme="@style/AppTheme"></activity>
+
     </application>
 
 </manifest>

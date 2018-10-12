@@ -46,4 +46,14 @@
     <string name="title_notifications">Profile</string>
     <string name="title_activity_main3">Servizy</string>
     <string name="title_activity_main4">Servizy</string>
+    <string name="title_activity_complaint">Register Complaint</string>
+    <string name="title_activity_user_complaint">Register Complaint</string>
+    <string name="Sel">Select your issue:</string>
+    <string name="ava">Select Availability Time:</string>
+    <string name="car">Carpenter</string>
+    <string name="Desc">Describe your issue...</string>
+    <string name="ele">Electrician</string>
+    <string name="plu">Plumber</string>
+    <string name="Other">Other</string>
+    <string name="comp">Would you like to receive notifications?</string>
 </resources>

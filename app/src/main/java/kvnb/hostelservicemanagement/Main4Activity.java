@@ -87,6 +87,11 @@ public class Main4Activity extends AppCompatActivity
         in.putExtra(str,ausername);
         startActivity(in);
     }
+    public void sendComplaint(){
+        Intent in = new Intent(this,complaintreg.class);
+        in.putExtra(str,ausername);
+        startActivity(in);
+    }
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -397,6 +402,9 @@ public class Main4Activity extends AppCompatActivity
             startActivity(in);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            Intent in = new Intent(this,UserComplaint.class);
+            in.putExtra(str,ausername);
+            startActivity(in);
 
         } else if (id == R.id.nav_slideshow) {
             Intent in =new Intent(this,MainActivity.class);

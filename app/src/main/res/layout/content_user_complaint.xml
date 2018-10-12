@@ -6,22 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Main3Activity"
-    tools:showIn="@layout/app_bar_main3">
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/navigation" />
+    tools:context=".UserComplaint"
+    tools:showIn="@layout/app_bar_user_complaint">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/messageRecyclerView1"
+        android:id="@+id/messageRecyclerView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-
 
 </LinearLayout>
