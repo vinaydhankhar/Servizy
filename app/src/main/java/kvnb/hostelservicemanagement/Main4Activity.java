@@ -377,6 +377,8 @@ public class Main4Activity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent =new Intent(this,AppSettings.class);
+            startActivity(intent);
             return true;
         }
 
@@ -398,6 +400,10 @@ public class Main4Activity extends AppCompatActivity
 
         } else if (id == R.id.nav_slideshow) {
             Intent in =new Intent(this,MainActivity.class);
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+            final SharedPreferences.Editor editor = pref.edit();
+            editor.clear();
+            editor.commit();
             startActivity(in);
         } else if (id == R.id.nav_manage) {
 

@@ -307,6 +307,8 @@ public class Main3Activity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent =new Intent(this,AppSettings.class);
+            startActivity(intent);
             return true;
         }
 
@@ -324,7 +326,12 @@ public class Main3Activity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+            final SharedPreferences.Editor editor = pref.edit();
+            editor.clear();
+            editor.commit();
             Intent in =new Intent(this,MainActivity.class);
+
             startActivity(in);
         } else if (id == R.id.nav_manage) {
 
@@ -344,84 +351,6 @@ public class Main3Activity extends AppCompatActivity
 
         int i=(int)r.nextInt(4);
         return color[i].toString();
-    }
-    public class LineDividerItemDecoration extends RecyclerView.ItemDecoration {
-
-        private final int[] ATTRS = new int[]{
-                android.R.attr.listDivider
-        };
-
-        public static final int HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;
-
-        public static final int VERTICAL_LIST = LinearLayoutManager.VERTICAL;
-
-        private Drawable mDivider;
-
-        private int mOrientation;
-
-        public LineDividerItemDecoration(Context context, int orientation) {
-            final TypedArray a = context.obtainStyledAttributes(ATTRS);
-            mDivider = a.getDrawable(0);
-            a.recycle();
-            setOrientation(orientation);
-        }
-
-        public void setOrientation(int orientation) {
-            if (orientation != HORIZONTAL_LIST && orientation != VERTICAL_LIST) {
-                throw new IllegalArgumentException("invalid orientation");
-            }
-            mOrientation = orientation;
-        }
-
-        @Override
-        public void onDraw(Canvas c, RecyclerView parent) {
-            if (mOrientation == VERTICAL_LIST) {
-                drawVertical(c, parent);
-            } else {
-                drawHorizontal(c, parent);
-            }
-        }
-
-        public void drawVertical(Canvas c, RecyclerView parent) {
-            final int left = parent.getPaddingLeft();
-            final int right = parent.getWidth() - parent.getPaddingRight();
-
-            final int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                final View child = parent.getChildAt(i);
-                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
-                        .getLayoutParams();
-                final int top = child.getBottom() + params.bottomMargin;
-                final int bottom = top + mDivider.getIntrinsicHeight();
-                mDivider.setBounds(left, top, right, bottom);
-                mDivider.draw(c);
-            }
-        }
-
-        public void drawHorizontal(Canvas c, RecyclerView parent) {
-            final int top = parent.getPaddingTop();
-            final int bottom = parent.getHeight() - parent.getPaddingBottom();
-
-            final int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                final View child = parent.getChildAt(i);
-                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
-                        .getLayoutParams();
-                final int left = child.getRight() + params.rightMargin;
-                final int right = left + mDivider.getIntrinsicHeight();
-                mDivider.setBounds(left, top, right, bottom);
-                mDivider.draw(c);
-            }
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
-            if (mOrientation == VERTICAL_LIST) {
-                outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
-            } else {
-                outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
-            }
-        }
     }
 
 

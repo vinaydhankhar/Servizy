@@ -53,8 +53,8 @@
                     android:shadowColor="#0076f0"
                     android:shadowRadius="0.1"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="#f71b1b1b"
-                    android:textSize="30dp"
+                    android:textColor="#f7181818"
+                    android:textSize="20dp"
                     />
 
                 <TextView
@@ -64,8 +64,8 @@
                     android:layout_weight="0"
                     android:fontFamily="sans-serif"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#f30a0a0a"
-                    android:textSize="20dp" />
+                    android:textColor="#f3232323"
+                    android:textSize="17dp" />
 
 
             </LinearLayout>
