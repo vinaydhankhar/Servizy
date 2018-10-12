@@ -41,31 +41,35 @@ public class complaintreg extends AppCompatActivity
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference messagesRef = mFirebaseDatabaseReference.child("complaint").child(ausername);
-                RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
-                TextView compdes=(TextView)findViewById(R.id.complaintdescription);
-                TextView startt=(TextView)findViewById(R.id.starttime);
-                TextView endt=(TextView)findViewById(R.id.endtime);
-                final String value =
-                        ((RadioButton)findViewById(rg.getCheckedRadioButtonId()))
-                                .getText().toString();
-                String complaintdes=compdes.getText().toString();
-                String key=messagesRef.push().getKey();
-                String starttime=startt.getText().toString();
-                String endtime=endt.getText().toString();
-                if(!(value.equals("")||complaintdes.equals("")||starttime.equals("")||endtime.equals(""))) {
-                    Complaint complaint = new Complaint(value, complaintdes, starttime, endtime, "unsolved");
-                    messagesRef.child(key).setValue(complaint);
-                    Snackbar.make(v, "Complaint Registered", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-                else
-                    {
+                try {
+                    DatabaseReference messagesRef = mFirebaseDatabaseReference.child("complaint").child(ausername);
+                    RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
+                    TextView compdes = (TextView) findViewById(R.id.complaintdescription);
+                    TextView startt = (TextView) findViewById(R.id.starttime);
+                    TextView endt = (TextView) findViewById(R.id.endtime);
+                    final String value =
+                            ((RadioButton) findViewById(rg.getCheckedRadioButtonId()))
+                                    .getText().toString();
+                    String complaintdes = compdes.getText().toString();
+                    String key = messagesRef.push().getKey();
+                    String starttime = startt.getText().toString();
+                    String endtime = endt.getText().toString();
+                    if (!(value.equals("") || complaintdes.equals("") || starttime.equals("") || endtime.equals(""))) {
+                        Complaint complaint = new Complaint(value, complaintdes, starttime, endtime, "unsolved");
+                        messagesRef.child(key).setValue(complaint);
+                        Snackbar.make(v, "Complaint Registered", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    } else {
                         Snackbar.make(v, "Please Fill Complete Details", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
 
 
+                }
+                catch (Exception e){
+                    Snackbar.make(v, "Please Fill Complete Details", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
