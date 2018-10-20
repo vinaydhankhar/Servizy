@@ -1,5 +1,6 @@
 package kvnb.hostelservicemanagement;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,14 +19,19 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+
 public class complaintreg extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private String ausername;
-    private String str="Message Checking";
+    private String str = "Message Checking";
+    TextView startt;
+    TextView endt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +39,53 @@ public class complaintreg extends AppCompatActivity
         setContentView(R.layout.activity_complaint);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Intent in =getIntent();
-        ausername=in.getStringExtra(str);
+        Intent in = getIntent();
+        ausername = in.getStringExtra(str);
 
         final DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        Button b=(Button)findViewById(R.id.buttoncom);
+        startt = (TextView) findViewById(R.id.starttime);
+        endt = (TextView) findViewById(R.id.endtime);
+        startt.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker = new TimePickerDialog(complaintreg.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        startt.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+
+        endt.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker = new TimePickerDialog(complaintreg.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        endt.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+
+        Button b = (Button) findViewById(R.id.buttoncom);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,8 +93,6 @@ public class complaintreg extends AppCompatActivity
                     DatabaseReference messagesRef = mFirebaseDatabaseReference.child("complaint").child(ausername);
                     RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
                     TextView compdes = (TextView) findViewById(R.id.complaintdescription);
-                    TextView startt = (TextView) findViewById(R.id.starttime);
-                    TextView endt = (TextView) findViewById(R.id.endtime);
                     final String value =
                             ((RadioButton) findViewById(rg.getCheckedRadioButtonId()))
                                     .getText().toString();
@@ -65,8 +111,7 @@ public class complaintreg extends AppCompatActivity
                     }
 
 
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     Snackbar.make(v, "Please Fill Complete Details", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
@@ -109,6 +154,10 @@ public class complaintreg extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, AppSettings.class);
+            intent.putExtra(str, ausername);
+            startActivity(intent);
+
             return true;
         }
 
@@ -122,14 +171,14 @@ public class complaintreg extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Intent in = new Intent(this,Main2Activity.class);
-            in.putExtra(str,ausername);
+            Intent in = new Intent(this, ParentActivity.class);
+            in.putExtra(str, ausername);
             startActivity(in);
 
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            Intent in = new Intent(this,UserComplaint.class);
-            in.putExtra(str,ausername);
+            Intent in = new Intent(this, UserComplaint.class);
+            in.putExtra(str, ausername);
             startActivity(in);
 
         } else if (id == R.id.nav_slideshow) {
@@ -137,7 +186,7 @@ public class complaintreg extends AppCompatActivity
             final SharedPreferences.Editor editor = pref.edit();
             editor.clear();
             editor.commit();
-            Intent in =new Intent(this,MainActivity.class);
+            Intent in = new Intent(this, MainActivity.class);
 
             startActivity(in);
         } else if (id == R.id.nav_manage) {

@@ -101,19 +101,10 @@ public class UserComplaint extends AppCompatActivity
             messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageViewcomp);
             cardview=(CardView)itemView.findViewById(R.id.cardviewcomp);
             messengerTextView = (TextView) itemView.findViewById(R.id.cardtextcomp2);
-            resolved=(TextView) itemView.findViewById(R.id.cardtextcomp3);
+
         }
     }
-    public void sendMessage(){
-        Intent in = new Intent(this,Main4Activity.class);
-        in.putExtra(str,ausername);
-        startActivity(in);
-    }
-    public void sendNotices(){
-        Intent in = new Intent(this,Main2Activity.class);
-        in.putExtra(str,ausername);
-        startActivity(in);
-    }
+
     private static final String TAG = "UserComplaint";
     public static final String MESSAGES_CHILD = "complaint";
     private static final int REQUEST_INVITE = 1;
@@ -150,8 +141,6 @@ public class UserComplaint extends AppCompatActivity
               sendComplaint();
             }
         });
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -213,8 +202,6 @@ public class UserComplaint extends AppCompatActivity
                     viewHolder.messageTextView.setText(friendlyMessage.getComplaintType());
                     viewHolder.cardview.setVisibility(CardView.VISIBLE);
                     viewHolder.cardview.setCardBackgroundColor(Color.parseColor(generateColor(new SecureRandom())));
-                    viewHolder.resolved.setText(friendlyMessage.getRusolved());
-                    viewHolder.resolved.setVisibility(TextView.VISIBLE);
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
 
                     viewHolder.messengerTextView.setVisibility(TextView.VISIBLE);
@@ -271,7 +258,7 @@ public class UserComplaint extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main3, menu);
+        getMenuInflater().inflate(R.menu.user_complaint, menu);
         return true;
     }
     public void onPause() {
@@ -309,7 +296,7 @@ public class UserComplaint extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Intent in =new Intent(this,Main2Activity.class);
+            Intent in =new Intent(this,ParentActivity.class);
             in.putExtra(str,ausername);
             startActivity(in);
             // Handle the camera action
@@ -324,7 +311,9 @@ public class UserComplaint extends AppCompatActivity
 
             startActivity(in);
         } else if (id == R.id.nav_manage) {
-
+            Intent in = new Intent(this, ProfileSetting.class);
+            in.putExtra(str, ausername);
+            startActivity(in);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

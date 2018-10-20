@@ -67,13 +67,6 @@
                     android:textColor="#f3232323"
                     android:textSize="17dp" />
 
-                <TextView
-                    android:id="@+id/cardtextcomp3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:textSize="15dp"/>
-
 
             </LinearLayout>
 

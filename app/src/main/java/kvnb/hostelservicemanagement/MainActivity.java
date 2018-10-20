@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     Button a;
     TextView textView;
     private String ausername;
-    private String str="Message Checking";
+    private String str = "Message Checking";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                                     User user = dataSnapshot.getValue(User.class);
                                     if (user.getPassword().equals(p)) {
                                         ausername = u;
-                                        editor.putString("user",u);
+                                        editor.putString("user", u);
                                         editor.commit();
                                         sendMessage();
                                     } else {
@@ -104,13 +105,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    public  void sendMessage(){
-        Intent intent =new Intent(this,Main3Activity.class);
-        intent.putExtra(str,ausername);
+
+    public void sendMessage() {
+        Intent intent = new Intent(this, ParentActivity.class);
+        intent.putExtra(str, ausername);
         startActivity(intent);
     }
-    public void register(View v){
-        Intent intent =new Intent(this,Register.class);
+
+    public void register(View v) {
+        Intent intent = new Intent(this, Register.class);
         startActivity(intent);
     }
 

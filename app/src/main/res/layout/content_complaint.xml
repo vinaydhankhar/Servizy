@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".complaintreg"
     tools:showIn="@layout/app_bar_complaint">
@@ -72,7 +71,10 @@
         android:layout_marginTop="23dp"
         android:background="#c1c4eceb"
         android:ems="10"
+        android:textAlignment="center"
         android:hint="@string/Desc"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,10 +96,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/complaintdescription" />
 
-    <EditText
+    <TextView
         android:id="@+id/starttime"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginStart="95dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="94dp"
@@ -105,14 +107,15 @@
         android:ems="10"
         android:hint="From"
         android:inputType="time"
+        android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <EditText
+    <TextView
         android:id="@+id/endtime"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginStart="95dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="94dp"
@@ -120,6 +123,7 @@
         android:ems="10"
         android:hint="To"
         android:inputType="time"
+        android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/starttime" />
@@ -133,6 +137,7 @@
         android:layout_marginEnd="149dp"
         android:background="@color/colorPrimary"
         android:text="Submit"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"

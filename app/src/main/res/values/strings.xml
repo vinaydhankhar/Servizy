@@ -8,7 +8,7 @@
     <string name="nav_header_title">Servizy</string>
     <string name="nav_header_subtitle">Now Service is Easy</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">About Us</string>
     <string name="tab_text_1">Notices</string>
     <string name="tab_text_2">Discuss</string>
     <string name="tab_text_3">Profile</string>
@@ -53,7 +53,9 @@
     <string name="car">Carpenter</string>
     <string name="Desc">Describe your issue...</string>
     <string name="ele">Electrician</string>
-    <string name="plu">Plumber</string>
+    <string name="plu">LAN</string>
     <string name="Other">Other</string>
     <string name="comp">Would you like to receive notifications?</string>
+    <string name="title_activity_profile_setting">ProfileSetting</string>
+    <string name="title_activity_parent">Servizy</string>
 </resources>

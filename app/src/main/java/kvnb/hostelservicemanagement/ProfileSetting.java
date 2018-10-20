@@ -3,16 +3,9 @@ package kvnb.hostelservicemanagement;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,7 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,116 +24,66 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Main2Activity extends AppCompatActivity
+public class ProfileSetting extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private String str="Message Checking";
-    private String ausername;
+    Button b3;
     TextView name;
-    TextView username;
 
-
-
+    TextView mail;
+    TextView phno;
     TextView rollno;
     TextView roomno;
     TextView hno;
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private TextView mTextMessage;
-    public void sendMessage(){
-        Intent in = new Intent(this,Main4Activity.class);
-        in.putExtra(str,ausername);
-        startActivity(in);
-    }
-    public void sendComplaint(){
-        Intent in = new Intent(this,complaintreg.class);
-        in.putExtra(str,ausername);
-        startActivity(in);
-    }
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    sendNotices();
-                    return true;
-                case R.id.navigation_dashboard:
-                    sendMessage();
-                    return true;
-                case R.id.navigation_notifications:
+    private String str = "Message Checking";
+    private String ausername;
 
-                    return true;
-            }
-            return false;
-        }
-    };
-
-    public void sendNotices(){
-
-        Intent in = new Intent(this,Main3Activity.class);
-        in.putExtra(str,ausername);
-        startActivity(in);
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_profile_setting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Intent in =getIntent();
-        ausername=in.getStringExtra(str);
-        username = (TextView) findViewById(R.id.usernameprofile);
+        Intent in = getIntent();
+        ausername = in.getStringExtra(str);
 
 
-        name = (TextView) findViewById(R.id.nameprofile);
-        rollno = (TextView) findViewById(R.id.rollnoprofile);
-        roomno = (TextView) findViewById(R.id.roomnoprofile);
-        hno = (TextView) findViewById(R.id.hostelnoprofile);
-
-
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        Log.v("Checkingerror","51");
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        Log.v("Checkingerror","52");
 
+        try {
+            name = (TextView) findViewById(R.id.name1);
+            Log.v("Checkingerror","53");
 
-        // Set up the ViewPager with the sections adapter.
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+            mail = (TextView) findViewById(R.id.email1);
+            phno = (TextView) findViewById(R.id.phnumber1);
+            rollno = (TextView) findViewById(R.id.rollno1);
+            roomno = findViewById(R.id.roomno1);
+            hno = (TextView) findViewById(R.id.hostelno1);
+            final DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference().child("registeruser").child(ausername);
 
-        navigation.setSelectedItemId(R.id.navigation_notifications);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-             sendComplaint();
-            }
-        });
-        if(!ausername.equals("")) {
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("registeruser").child(ausername);
-
-
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            reference1.addListenerForSingleValueEvent(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         RegisterUser user = dataSnapshot.getValue(RegisterUser.class);
-                        username.setText(ausername);
                         name.setText(user.getName());
+                        mail.setText(user.getMail());
+                        phno.setText(user.getPhno());
+                        hno.setText(user.getHno());
                         rollno.setText(user.getRollno());
                         roomno.setText(user.getRoomno());
-                        hno.setText(user.getHno());
 
                     }
+
                 }
 
                 @Override
@@ -149,10 +92,31 @@ public class Main2Activity extends AppCompatActivity
 
                 }
             });
+
+
+            b3 = (Button) findViewById(R.id.button4);
+            b3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final String name1 = name.getText().toString();
+                    final String mail1 = mail.getText().toString();
+                    final String phno1 = phno.getText().toString();
+                    final String rollno1 = rollno.getText().toString();
+                    final String roomno1 = roomno.getText().toString();
+                    String hno1 = hno.getText().toString();
+
+                    RegisterUser ruser = new RegisterUser(name1, mail1, phno1, rollno1, roomno1, hno1);
+                    reference1.setValue(ruser);
+                    Snackbar.make(v, "Profile Updated", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    // reference1.child(ausername).setValue();
+                }
+            });
+        } catch (Exception e) {
+
         }
-
-
     }
+
 
     @Override
     public void onBackPressed() {
@@ -167,7 +131,7 @@ public class Main2Activity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.profile_setting, menu);
         return true;
     }
 
@@ -181,7 +145,9 @@ public class Main2Activity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent =new Intent(this,AppSettings.class);
+            intent.putExtra(str, ausername);
             startActivity(intent);
+
             return true;
         }
 
@@ -195,29 +161,30 @@ public class Main2Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Intent in = new Intent(this,Main3Activity.class);
-            in.putExtra(str,ausername);
+            Intent in = new Intent(this, ParentActivity.class);
+            in.putExtra(str, ausername);
             startActivity(in);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            Intent in = new Intent(this,UserComplaint.class);
-            in.putExtra(str,ausername);
+            Intent in = new Intent(this, UserComplaint.class);
+            in.putExtra(str, ausername);
             startActivity(in);
 
         } else if (id == R.id.nav_slideshow) {
+            Intent in = new Intent(this, MainActivity.class);
             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
             final SharedPreferences.Editor editor = pref.edit();
             editor.clear();
             editor.commit();
-            Intent in =new Intent(this,MainActivity.class);
             startActivity(in);
         } else if (id == R.id.nav_manage) {
-
+            Intent in = new Intent(this, ProfileSetting.class);
+            in.putExtra(str, ausername);
+            startActivity(in);
         }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-    }
+}
