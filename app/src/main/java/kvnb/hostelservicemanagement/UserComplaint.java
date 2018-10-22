@@ -164,7 +164,7 @@ public class UserComplaint extends AppCompatActivity
         //mMessageRecyclerView.addItemDecoration(new LineDividerItemDecoration(this, R.drawable.line_divider));
         Log.v("ErrorMessage","Checking5");
 
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child(MESSAGES_CHILD).child(ausername);
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child(MESSAGES_CHILD);
         Log.v("ErrorMessage","Checking2");
         SnapshotParser<Complaint> parser = new SnapshotParser<Complaint>() {
             @Override
@@ -195,10 +195,11 @@ public class UserComplaint extends AppCompatActivity
                                             int position,
                                             Complaint friendlyMessage) {
 
-
+                Log.v("Error", "Checking5");
                 if (friendlyMessage.getComplaintType() != null) {
-
-                    Log.v("Error","Checking5");
+                    Log.v("Error", "Checking7");
+                    if (friendlyMessage.getName().equals(ausername)){
+                        Log.v("Error", "Checking5");
                     viewHolder.messageTextView.setText(friendlyMessage.getComplaintType());
                     viewHolder.cardview.setVisibility(CardView.VISIBLE);
                     viewHolder.cardview.setCardBackgroundColor(Color.parseColor(generateColor(new SecureRandom())));
@@ -206,14 +207,17 @@ public class UserComplaint extends AppCompatActivity
 
                     viewHolder.messengerTextView.setVisibility(TextView.VISIBLE);
                     viewHolder.messengerTextView.setText(friendlyMessage.getComplaintDescription());
-                    if(friendlyMessage.getRusolved().equals("resolved")) {
+                    if (friendlyMessage.getRusolved().equals("resolved")) {
                         viewHolder.messengerImageView.setImageResource(R.drawable.ic_done);
                         viewHolder.messengerImageView.setVisibility(CircleImageView.VISIBLE);
-                    }
-                    else{
+                    } else {
                         viewHolder.messengerImageView.setImageResource(R.drawable.ic_notdone);
                         viewHolder.messengerImageView.setVisibility(CircleImageView.VISIBLE);
 
+                    }
+                }
+                    else{
+                        viewHolder.cardview.setVisibility(CardView.GONE);
                     }
                 }
 

@@ -135,7 +135,8 @@ public class DiscussionFragment extends Fragment {
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mLinearLayoutManager.setStackFromEnd(true);
         mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
-
+        ImageView imagebutton=v.findViewById(R.id.addMessageImageView);
+        imagebutton.setVisibility(ImageView.GONE);
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         SnapshotParser<FriendlyMessage> parser = new SnapshotParser<FriendlyMessage>() {
             @Override

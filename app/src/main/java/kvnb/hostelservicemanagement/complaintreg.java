@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,8 +22,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
@@ -32,7 +36,7 @@ public class complaintreg extends AppCompatActivity
     private String str = "Message Checking";
     TextView startt;
     TextView endt;
-
+    RegisterUser registerUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +45,20 @@ public class complaintreg extends AppCompatActivity
         setSupportActionBar(toolbar);
         Intent in = getIntent();
         ausername = in.getStringExtra(str);
+        DatabaseReference mydbref=FirebaseDatabase.getInstance().getReference().child("registeruser").child(ausername);
+        mydbref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists())
+                    Log.v("checkingtheerror","114");
+                registerUser=dataSnapshot.getValue(RegisterUser.class);
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         final DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         startt = (TextView) findViewById(R.id.starttime);
         endt = (TextView) findViewById(R.id.endtime);
@@ -90,7 +107,7 @@ public class complaintreg extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 try {
-                    DatabaseReference messagesRef = mFirebaseDatabaseReference.child("complaint").child(ausername);
+                    DatabaseReference messagesRef = mFirebaseDatabaseReference.child("complaint");
                     RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
                     TextView compdes = (TextView) findViewById(R.id.complaintdescription);
                     final String value =
@@ -100,9 +117,13 @@ public class complaintreg extends AppCompatActivity
                     String key = messagesRef.push().getKey();
                     String starttime = startt.getText().toString();
                     String endtime = endt.getText().toString();
+                    Log.v("checkingtheerror","107");
                     if (!(value.equals("") || complaintdes.equals("") || starttime.equals("") || endtime.equals(""))) {
-                        Complaint complaint = new Complaint(value, complaintdes, starttime, endtime, "unsolved");
+
+                        Log.v("checkingtheerror","123");
+                        Complaint complaint = new Complaint(value, complaintdes, starttime, endtime, "unsolved",registerUser.getRoomno(),registerUser.getHno(),ausername);
                         messagesRef.child(key).setValue(complaint);
+                        Log.v("checkingtheerror","126");
                         Snackbar.make(v, "Complaint Registered", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     } else {

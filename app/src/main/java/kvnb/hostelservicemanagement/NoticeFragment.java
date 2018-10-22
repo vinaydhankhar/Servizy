@@ -120,8 +120,9 @@ public class NoticeFragment extends Fragment {
 
                 if (friendlyMessage.getText() != null) {
                     Log.v("Checkingmsg", "17");
+
+                    viewHolder.imageview.setImageResource(getimage());
                     viewHolder.imageview.setVisibility(ImageView.VISIBLE);
-                    // viewHolder.imageview.setImageResource(R.drawable.notice);
                     viewHolder.messageTextView.setText(friendlyMessage.getText());
                     viewHolder.cardview.setVisibility(CardView.VISIBLE);
                     viewHolder.cardview.setCardBackgroundColor(Color.parseColor("#ffffff"));
@@ -140,7 +141,7 @@ public class NoticeFragment extends Fragment {
                             viewHolder.messengerTextView.setVisibility(TextView.VISIBLE);
 
                         } else {
-
+                           // viewHolder.imageview.setVisibility(ImageView.GONE);
                             viewHolder.messengerTextView.setVisibility(TextView.GONE);
                         }
                     }
@@ -229,5 +230,12 @@ public class NoticeFragment extends Fragment {
             messengerTextView = (TextView) itemView.findViewById(R.id.cardtext2);
             imageview = (ImageView) itemView.findViewById(R.id.imageView4);
         }
+    }
+    public int getimage(){
+        SecureRandom r=new SecureRandom();
+        int [] array={R.drawable.notice,R.drawable.noticies,R.drawable.noicie,R.drawable.noticis};
+        int i=r.nextInt(3);
+        return array[i];
+
     }
 }

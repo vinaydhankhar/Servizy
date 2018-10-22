@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -29,13 +32,20 @@ public class MainActivity extends AppCompatActivity {
     Button a;
     TextView textView;
     private String ausername;
+    private String password;
+    AnimationDrawable animationDrawable;
+    RelativeLayout relativeLayout;
     private String str = "Message Checking";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        relativeLayout=findViewById(R.id.layout);
+        animationDrawable=(AnimationDrawable)relativeLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(2000);
+        animationDrawable.setExitFadeDuration(2000);
+        animationDrawable.start();
         a = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.register);
         SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -64,10 +74,19 @@ public class MainActivity extends AppCompatActivity {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     User user = dataSnapshot.getValue(User.class);
-                                    if (user.getPassword().equals(p)) {
+                                    try {
+                                        Trippledes Des = new Trippledes();
+                                        password = Des.decrypt(user.getPassword());
+                                        Log.v("Checkingmsg","11");
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (password.equals(p)) {
                                         ausername = u;
                                         editor.putString("user", u);
                                         editor.commit();
+
+
                                         sendMessage();
                                     } else {
                                         Snackbar.make(view, "Wrong Password", Snackbar.LENGTH_LONG)

@@ -1,6 +1,11 @@
 package kvnb.hostelservicemanagement;
 
 public class Complaint {
+    private String room;
+    private String hno;
+    private String name;
+
+
     private String complaintType;
     private String complaintDescription;
     private String atimeStart;
@@ -10,13 +15,27 @@ public class Complaint {
     public Complaint() {
 
     }
+    public String getRoom() {
+        return room;
+    }
 
-    public Complaint(String complaintType, String complaintDescription, String atimeStart, String atimeEnd,String rusolved) {
+    public String getHno() {
+        return hno;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Complaint(String complaintType, String complaintDescription, String atimeStart, String atimeEnd, String rusolved, String room, String hno, String name) {
         this.complaintType=complaintType;
         this.complaintDescription=complaintDescription;
         this.atimeStart=atimeStart;
         this.atimeEnd=atimeEnd;
         this.rusolved=rusolved;
+        this.room=room;
+        this.hno=hno;
+        this.name=name;
     }
     public String getId() {
         return id;
