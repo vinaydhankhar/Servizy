@@ -233,7 +233,7 @@ public class NoticeFragment extends Fragment {
     }
     public int getimage(){
         SecureRandom r=new SecureRandom();
-        int [] array={R.drawable.notice,R.drawable.noticies,R.drawable.noicie,R.drawable.noticis};
+        int [] array={R.drawable.noicie,R.drawable.noticies,R.drawable.noicie,R.drawable.noticis};
         int i=r.nextInt(3);
         return array[i];
 
