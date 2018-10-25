@@ -4,6 +4,8 @@ public class Complaint {
     private String room;
     private String hno;
     private String name;
+    private double rating;
+
 
 
     private String complaintType;
@@ -27,7 +29,11 @@ public class Complaint {
         return name;
     }
 
-    public Complaint(String complaintType, String complaintDescription, String atimeStart, String atimeEnd, String rusolved, String room, String hno, String name) {
+    public double getRating() {
+        return rating;
+    }
+
+    public Complaint(String complaintType, String complaintDescription, String atimeStart, String atimeEnd, String rusolved, String room, String hno, String name, double rating) {
         this.complaintType=complaintType;
         this.complaintDescription=complaintDescription;
         this.atimeStart=atimeStart;
@@ -36,7 +42,10 @@ public class Complaint {
         this.room=room;
         this.hno=hno;
         this.name=name;
+        this.rating=rating;
+
     }
+    //funvtions to send data to database
     public String getId() {
         return id;
     }

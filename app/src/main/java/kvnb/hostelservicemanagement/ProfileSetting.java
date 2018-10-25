@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -104,12 +105,37 @@ public class ProfileSetting extends AppCompatActivity
                     final String rollno1 = rollno.getText().toString();
                     final String roomno1 = roomno.getText().toString();
                     String hno1 = hno.getText().toString();
-
-                    RegisterUser ruser = new RegisterUser(name1, mail1, phno1, rollno1, roomno1, hno1);
-                    reference1.setValue(ruser);
-                    Snackbar.make(v, "Profile Updated", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    // reference1.child(ausername).setValue();
+                    if (TextUtils.isEmpty(name1)) {
+                        name.setError("Name cannot be empty");
+                        //return;
+                    }
+                    else if (TextUtils.isEmpty(mail1)) {
+                        mail.setError("Email cannot be empty");
+                        //return;
+                    }
+                    else if (TextUtils.isEmpty(phno1)||phno1.length()!=10) {
+                        phno.setError("Contact Number wrong length");
+                        //return;
+                    }
+                    else if (TextUtils.isEmpty(rollno1)) {
+                        rollno.setError("Roll Number cannot be empty");
+                        //return;
+                    }
+                    else if (TextUtils.isEmpty(roomno1)) {
+                        roomno.setError("Room Number cannot be empty");
+                        //return;
+                    }
+                    else if (TextUtils.isEmpty(hno1)) {
+                        hno.setError("Hostel Number cannot be empty");
+                        //return;
+                        //              String hno1 = hno.getText().toString();
+                    } else {
+                        RegisterUser ruser = new RegisterUser(name1, mail1, phno1, rollno1, roomno1, hno1);
+                        reference1.setValue(ruser);
+                        Snackbar.make(v, "Profile Updated", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        // reference1.child(ausername).setValue();
+                    }
                 }
             });
         } catch (Exception e) {

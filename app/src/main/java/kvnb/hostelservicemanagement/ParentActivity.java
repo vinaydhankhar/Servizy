@@ -108,7 +108,7 @@ public class ParentActivity extends AppCompatActivity
                         fab.hide();
                         break;
                     case 2:
-                        fab.show();
+                        fab.hide();
                         break;
                 }
 
@@ -137,15 +137,15 @@ public class ParentActivity extends AppCompatActivity
 
                 PendingIntent pendingintent=PendingIntent.getActivity(ParentActivity.this,0,intentNotification,0);
                 Notification noti=new Notification.Builder(ParentActivity.this).setTicker("Ticker")
-                        .setContentTitle("New Noticies")
-                        .setContentText("Check your Noticies")
+                        .setContentTitle("New Notices")
+                        .setContentText("Check your Notices")
                         .setSmallIcon(R.drawable.logo)
                         .setContentIntent(pendingintent).getNotification();
                 noti.flags=Notification.FLAG_AUTO_CANCEL;
                 NotificationManager notificationManager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
                 notificationManager.notify(0,noti);
             }
-
+    // in case of error
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -192,6 +192,7 @@ public class ParentActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
+    //attaching activities to drawer
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();

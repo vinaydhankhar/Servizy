@@ -121,7 +121,7 @@ public class complaintreg extends AppCompatActivity
                     if (!(value.equals("") || complaintdes.equals("") || starttime.equals("") || endtime.equals(""))) {
 
                         Log.v("checkingtheerror","123");
-                        Complaint complaint = new Complaint(value, complaintdes, starttime, endtime, "unsolved",registerUser.getRoomno(),registerUser.getHno(),ausername);
+                        Complaint complaint = new Complaint(value, complaintdes, starttime, endtime, "unsolved",registerUser.getRoomno(),registerUser.getHno(),ausername,0);
                         messagesRef.child(key).setValue(complaint);
                         Log.v("checkingtheerror","126");
                         Snackbar.make(v, "Complaint Registered", Snackbar.LENGTH_LONG)

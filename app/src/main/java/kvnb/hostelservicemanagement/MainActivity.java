@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         relativeLayout=findViewById(R.id.layout);
+        //animation for login page
         animationDrawable=(AnimationDrawable)relativeLayout.getBackground();
         animationDrawable.setEnterFadeDuration(2000);
         animationDrawable.setExitFadeDuration(2000);
@@ -51,10 +52,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = pref.edit();
         String user1 = pref.getString("user", "");
-        if (!user1.equals("")) {
-            ausername = user1;
-            sendMessage();
-        } else {
 
 
             a.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
+
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

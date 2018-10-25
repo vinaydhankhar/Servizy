@@ -203,7 +203,7 @@ public class DiscussionFragment extends Fragment {
                 viewHolder.messengerTextView.setText(friendlyMessage.getName());
                 if (friendlyMessage.getPhotoUrl() == null) {
                     viewHolder.messengerImageView.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                            R.drawable.ic_account_circle_black_36dp));
+                            R.drawable.ic_account_circle_black_35dp));
                 } else {
                     Glide.with(DiscussionFragment.this)
                             .load(friendlyMessage.getPhotoUrl())
@@ -270,7 +270,7 @@ public class DiscussionFragment extends Fragment {
                 mMessageEditText.setText("");
             }
         });
-
+  // to load image
         mAddMessageImageView = (ImageView) v.findViewById(R.id.addMessageImageView);
         mAddMessageImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,7 +285,7 @@ public class DiscussionFragment extends Fragment {
 
         return v;
     }
-
+  //function to get the image
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);

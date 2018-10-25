@@ -27,16 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.security.SecureRandom;
 
-/*
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NoticeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link NoticeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class NoticeFragment extends Fragment {
     View v;
     public static final String MESSAGES_CHILD = "notices";
@@ -121,27 +112,28 @@ public class NoticeFragment extends Fragment {
                 if (friendlyMessage.getText() != null) {
                     Log.v("Checkingmsg", "17");
 
-                    viewHolder.imageview.setImageResource(getimage());
-                    viewHolder.imageview.setVisibility(ImageView.VISIBLE);
+                    //viewHolder.imageview.setImageResource(getimage());
+                    //viewHolder.imageview.setVisibility(ImageView.VISIBLE);
                     viewHolder.messageTextView.setText(friendlyMessage.getText());
                     viewHolder.cardview.setVisibility(CardView.VISIBLE);
-                    viewHolder.cardview.setCardBackgroundColor(Color.parseColor("#ffffff"));
-
+                    viewHolder.cardview.setCardBackgroundColor(Color.parseColor("#f2f2f2"));
+                    viewHolder.messengerTextView.setVisibility(TextView.VISIBLE);
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
 
                 }
 
                 viewHolder.messengerTextView.setText(friendlyMessage.getName());
-                viewHolder.messengerTextView.setVisibility(TextView.GONE);
-                viewHolder.messageTextView.setOnClickListener(new View.OnClickListener() {
+                //viewHolder.messengerTextView.setVisibility(TextView.GONE);
+                viewHolder.cardview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (viewHolder.messengerTextView.getVisibility() == TextView.GONE) {
 
                             viewHolder.messengerTextView.setVisibility(TextView.VISIBLE);
+                          //   viewHolder.imageview.setVisibility(ImageView.GONE);
 
                         } else {
-                           // viewHolder.imageview.setVisibility(ImageView.GONE);
+                            //viewHolder.imageview.setVisibility(ImageView.VISIBLE);
                             viewHolder.messengerTextView.setVisibility(TextView.GONE);
                         }
                     }
@@ -176,51 +168,12 @@ public class NoticeFragment extends Fragment {
 
     }
 
-    /*
-        // TODO: Rename method, update argument and hook method into UI event
-        public void onButtonPressed(Uri uri) {
-            if (mListener != null) {
-                mListener.onFragmentInteraction(uri);
-            }
-        }
-
-        @Override
-        public void onAttach(Context context) {
-            super.onAttach(context);
-            if (context instanceof OnFragmentInteractionListener) {
-                mListener = (OnFragmentInteractionListener) context;
-            } else {
-                throw new RuntimeException(context.toString()
-                        + " must implement OnFragmentInteractionListener");
-            }
-        }
-
-        @Override
-        public void onDetach() {
-            super.onDetach();
-            mListener = null;
-        }
-
-        /**
-         * This interface must be implemented by activities that contain this
-         * fragment to allow an interaction in this fragment to be communicated
-         * to the activity and potentially other fragments contained in that
-         * activity.
-         * <p>
-         * See the Android Training lesson <a href=
-         * "http://developer.android.com/training/basics/fragments/communicating.html"
-         * >Communicating with Other Fragments</a> for more information.
-         *//*
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }*/
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView messageTextView;
         CardView cardview;
         TextView messengerTextView;
 
-        ImageView imageview;
+       // ImageView imageview;
 
         public MessageViewHolder(View v) {
             super(v);
@@ -228,12 +181,13 @@ public class NoticeFragment extends Fragment {
 
             cardview = (CardView) itemView.findViewById(R.id.cardview12);
             messengerTextView = (TextView) itemView.findViewById(R.id.cardtext2);
-            imageview = (ImageView) itemView.findViewById(R.id.imageView4);
+           // imageview = (ImageView) itemView.findViewById(R.id.imageView4);
         }
     }
+    ///get any random image
     public int getimage(){
         SecureRandom r=new SecureRandom();
-        int [] array={R.drawable.noicie,R.drawable.noticies,R.drawable.noicie,R.drawable.noticis};
+        int [] array={R.drawable.noticis,R.drawable.noicie,R.drawable.noicie,R.drawable.noticis};
         int i=r.nextInt(3);
         return array[i];
 

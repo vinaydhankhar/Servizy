@@ -64,6 +64,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-medium"
+                android:textColorHighlight="@color/colorPrimary"
+                android:outlineSpotShadowColor="@color/colorPrimary"
                 app:layout_constraintBottom_toTopOf="@+id/input2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -72,6 +74,8 @@
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHighlight="@color/colorPrimary"
+                    android:outlineSpotShadowColor="@color/colorPrimary"
                     android:fontFamily="sans-serif-medium"
                     android:hint="@string/input1"
                     android:inputType="text" />
@@ -231,7 +235,7 @@
                 android:layout_marginTop="45dp"
                 android:layout_marginEnd="187dp"
                 android:layout_marginBottom="64dp"
-                android:background="#0076f0"
+                android:background="@color/colorPrimary"
                 android:elevation="5dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"

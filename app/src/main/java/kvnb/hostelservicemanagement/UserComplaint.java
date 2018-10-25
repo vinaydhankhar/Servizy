@@ -40,6 +40,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,14 +94,20 @@ public class UserComplaint extends AppCompatActivity
         CardView cardview;
         TextView messengerTextView;
         CircleImageView messengerImageView;
-        TextView resolved;
-
+        TextView feedback;
+        RatingBar ratingBar;
+        Button ratingButton;
         public MessageViewHolder(View v) {
             super(v);
             messageTextView = (TextView) itemView.findViewById(R.id.cardtextcomp1);
             messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageViewcomp);
             cardview=(CardView)itemView.findViewById(R.id.cardviewcomp);
             messengerTextView = (TextView) itemView.findViewById(R.id.cardtextcomp2);
+            feedback=v.findViewById(R.id.feedback);
+            ratingBar=v.findViewById(R.id.ratingBar);
+            //feedback done using rating bsr
+            ratingButton=v.findViewById(R.id.feedbackbutton);
+            ratingBar.setNumStars(5);
 
         }
     }
@@ -193,7 +200,7 @@ public class UserComplaint extends AppCompatActivity
             @Override
             protected void onBindViewHolder(final UserComplaint.MessageViewHolder viewHolder,
                                             int position,
-                                            Complaint friendlyMessage) {
+                                            final Complaint friendlyMessage) {
 
                 Log.v("Error", "Checking5");
                 if (friendlyMessage.getComplaintType() != null) {
@@ -210,10 +217,34 @@ public class UserComplaint extends AppCompatActivity
                     if (friendlyMessage.getRusolved().equals("resolved")) {
                         viewHolder.messengerImageView.setImageResource(R.drawable.ic_done);
                         viewHolder.messengerImageView.setVisibility(CircleImageView.VISIBLE);
+                        if(friendlyMessage.getRating()==0.0){
+                            viewHolder.feedback.setVisibility(TextView.VISIBLE);
+                            viewHolder.ratingBar.setVisibility(RatingBar.VISIBLE);
+                            viewHolder.ratingButton.setVisibility(Button.VISIBLE);
+                            viewHolder.ratingButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    double rating = viewHolder.ratingBar.getRating();
+                                    Complaint complaint=new Complaint(friendlyMessage.getComplaintType(),friendlyMessage.getComplaintDescription(),friendlyMessage.getAtimeStart(),friendlyMessage.getAtimeEnd(),friendlyMessage.getRusolved(),friendlyMessage.getRoom(),friendlyMessage.getHno(),friendlyMessage.getName(),rating);
+                                        DatabaseReference mydb= FirebaseDatabase.getInstance().getReference().child("complaint").child(friendlyMessage.getId());
+                                        mydb.setValue(complaint);
+                                    Snackbar.make(v, "Feedback Registered if Complaint Not solved Register Complaint Again", Snackbar.LENGTH_LONG)
+                                            .setAction("Action", null).show();
+                                }
+                            });
+                        }
+                        else{
+                            viewHolder.feedback.setVisibility(TextView.GONE);
+                            viewHolder.ratingBar.setVisibility(RatingBar.GONE);
+                            viewHolder.ratingButton.setVisibility(Button.GONE);
+                        }
+
                     } else {
                         viewHolder.messengerImageView.setImageResource(R.drawable.ic_notdone);
                         viewHolder.messengerImageView.setVisibility(CircleImageView.VISIBLE);
-
+                        viewHolder.feedback.setVisibility(TextView.GONE);
+                        viewHolder.ratingBar.setVisibility(RatingBar.GONE);
+                        viewHolder.ratingButton.setVisibility(Button.GONE);
                     }
                 }
                     else{
@@ -228,6 +259,7 @@ public class UserComplaint extends AppCompatActivity
 
             }
         };
+        //for listening from adapter to recyler view
         Log.v("Error","Checking6");
         mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -324,6 +356,7 @@ public class UserComplaint extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    //for random colors
     private static String generateColor(SecureRandom r) {
         StringBuilder color[] = new StringBuilder[5];
         color[0]=new StringBuilder("#ffffff");

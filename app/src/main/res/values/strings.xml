@@ -56,6 +56,6 @@
     <string name="plu">LAN</string>
     <string name="Other">Other</string>
     <string name="comp">Would you like to receive notifications?</string>
-    <string name="title_activity_profile_setting">ProfileSetting</string>
+    <string name="title_activity_profile_setting">Profile Settings</string>
     <string name="title_activity_parent">Servizy</string>
 </resources>
