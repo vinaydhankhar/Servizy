@@ -67,7 +67,7 @@ public class Register extends AppCompatActivity {
                     }  else if (TextUtils.isEmpty(u)) {
                         username.setError("UserName cannot be empty");
                         //return;
-                    } else if (TextUtils.isEmpty(passTemp)||passTemp.length()<=8) {
+                    } else if (TextUtils.isEmpty(passTemp)||passTemp.length()<8) {
                         password.setError("Password not strong must be atleast 8 character");
                         //return;
                     }  else if (TextUtils.isEmpty(mail1)) {
