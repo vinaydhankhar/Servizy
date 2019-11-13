@@ -73,36 +73,10 @@
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Karunam Goyal"
+                android:text="Vinay Kumar"
                 android:textSize="18dp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp">
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginRight="4dp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="Vinay Dhankhar"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginLeft="4dp"
-                android:layout_weight="1"
-                android:text="Bharat Ranjan"
-                android:textSize="18dp" />
-        </LinearLayout>
 
     </LinearLayout>
 
@@ -111,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center|bottom"
-        android:text="Made with Love for Excalibur"
+        android:text="Mobile App Development Project"
         android:textSize="18dp" />
 
     <TextView

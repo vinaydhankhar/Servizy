@@ -1,52 +1,45 @@
 {
   "project_info": {
-    "project_number": "286029959893",
-    "firebase_url": "https://awesome-chess-218708.firebaseio.com",
-    "project_id": "awesome-chess-218708",
-    "storage_bucket": "awesome-chess-218708.appspot.com"
+    "project_number": "871336440982",
+    "firebase_url": "https://servizy-8b7ff.firebaseio.com",
+    "project_id": "servizy-8b7ff",
+    "storage_bucket": "servizy-8b7ff.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:286029959893:android:6e31901e77369a19",
+        "mobilesdk_app_id": "1:871336440982:android:9113904d1a15f93a78feb7",
         "android_client_info": {
           "package_name": "kvnb.hostelservicemanagement"
         }
       },
       "oauth_client": [
         {
-          "client_id": "286029959893-smlh11dd6r6nh1cbso9nb59u7r2srskj.apps.googleusercontent.com",
+          "client_id": "871336440982-v79ci7pb8fcnqvegen2eip2aluve8osl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "kvnb.hostelservicemanagement",
-            "certificate_hash": "c08b8803d7a56a1d571f84779dbc7db2401aac2b"
+            "certificate_hash": "5fccc1c1d60479aac282c44ae91da2d610375bed"
           }
         },
         {
-          "client_id": "286029959893-lckt11ffus7uknja2sdrjuv5c9pn8ek6.apps.googleusercontent.com",
+          "client_id": "871336440982-c7rmp7dcqj44mcc22e6l6ql7pvp9003j.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyALCwvQF3nieLSFPM2FpfMB1iq_6pIstyU"
+          "current_key": "AIzaSyDlBJ52fQt79J7u3tA9azdOG29iJOQ4Wm0"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "286029959893-lckt11ffus7uknja2sdrjuv5c9pn8ek6.apps.googleusercontent.com",
+              "client_id": "871336440982-c7rmp7dcqj44mcc22e6l6ql7pvp9003j.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
